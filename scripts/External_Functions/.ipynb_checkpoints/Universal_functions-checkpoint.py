@@ -1,5 +1,5 @@
 # calcualte the weighted mean
-def unicertainty_weighted(y_std):
+def uncertainty_weighted(y_std):
     import numpy as np
     return np.sqrt(1/sum(1/y_std**2))
 #Calculate weighted standard deviation

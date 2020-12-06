@@ -1,12 +1,12 @@
 #csv files with name_number and return it in a libery with the all the data set from 0:number
-def data_import(Number_of_datasets,name,skiprows_pd):
+def data_import(Number_of_datasets,name,skiprows_pd,location):
     import pandas as pd
     import numpy as np
     Time=[]
     Voltages=[]
     for i in range(Number_of_datasets):
         g=np.arange(1,Number_of_datasets+1).astype(str)
-        Data=np.array(pd.read_csv(name+g[i]+'.csv',skiprows=range(skiprows_pd)))
+        Data=np.array(pd.read_csv(location+name+g[i]+'.csv',skiprows=range(skiprows_pd)))
         Time.append(Data[:,0]-min(Data[:,0]))
         Voltages.append(Data[:,1])
     return Time,Voltages
@@ -53,7 +53,7 @@ def mean_func(Time,Voltages):
         mean_Roll[i]=[]
         std_Roll[i]=[]
         Roll=data_sorting(Time[i],Voltages[i])
-        for j in range(len(Roll[3])-1):
+        for j in range(1,len(Roll[3])-1):
             mean_Roll[i].append(np.mean(Roll[1][Roll[3][j]:Roll[3][j+1]])+np.mean(Roll[0][Roll[2][j]:Roll[2][j+1]])/2)
             std_Roll[i].append((np.std(Roll[1][Roll[3][j]:Roll[3][j+1]])+np.std(Roll[0][Roll[2][j]:Roll[2][j+1]]))/2)
         mean_Roll[i]=np.array(mean_Roll[i])-min(mean_Roll[i])
