@@ -53,8 +53,8 @@ def mean_func(Time,Voltages):
         mean_Roll[i]=[]
         std_Roll[i]=[]
         Roll=data_sorting(Time[i],Voltages[i])
-        for j in range(1,len(Roll[3])-1):
-            mean_Roll[i].append(np.mean(Roll[1][Roll[3][j]:Roll[3][j+1]])+np.mean(Roll[0][Roll[2][j]:Roll[2][j+1]])/2)
-            std_Roll[i].append((np.std(Roll[1][Roll[3][j]:Roll[3][j+1]])+np.std(Roll[0][Roll[2][j]:Roll[2][j+1]]))/2)
+        for j in range(0,len(Roll[3])-1):
+            mean_Roll[i].append((np.mean(Roll[1][Roll[3][j]:Roll[3][j+1]])+np.mean(Roll[0][Roll[2][j]:Roll[2][j+1]]))/2)
+            std_Roll[i].append((np.std(Roll[1][Roll[3][j]:Roll[3][j+1]])+np.std(Roll[0][Roll[2][j]:Roll[2][j+1]])))
         mean_Roll[i]=np.array(mean_Roll[i])-min(mean_Roll[i])
     return mean_Roll,std_Roll
