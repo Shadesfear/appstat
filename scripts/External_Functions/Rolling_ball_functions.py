@@ -46,15 +46,51 @@ def data_sorting(Time,Voltages):
     #calculate the time when the ball goes through  the middle of the laser 
 def mean_func(Time,Voltages):
     from Rolling_ball_functions import data_sorting
+    from Universal_functions import weighted_mean,uncertainty_weighted
     import numpy as np
-    mean_Roll={}
-    std_Roll={}
-    for i in range(len(Time)):
-        mean_Roll[i]=[]
-        std_Roll[i]=[]
+    Time1=[]
+    Time2=[]
+    Time3=[]
+    Time4=[]
+    Time5=[]
+    Time1_std=[]
+    Time2_std=[]
+    Time3_std=[]
+    Time4_std=[]
+    Time5_std=[]
+    j=0
+    for i in range(5):
+        j=0
         Roll=data_sorting(Time[i],Voltages[i])
-        for j in range(0,len(Roll[3])-1):
-            mean_Roll[i].append((np.mean(Roll[1][Roll[3][j]:Roll[3][j+1]])+np.mean(Roll[0][Roll[2][j]:Roll[2][j+1]]))/2)
-            std_Roll[i].append((np.std(Roll[1][Roll[3][j]:Roll[3][j+1]])+np.std(Roll[0][Roll[2][j]:Roll[2][j+1]])))
-        mean_Roll[i]=np.array(mean_Roll[i])-min(mean_Roll[i])
-    return mean_Roll,std_Roll
+        Time1.append((np.mean(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.mean(Roll[1][Roll[3][j]:Roll[3][j+1]]))/2)
+        Time1_std.append((np.std(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.std(Roll[1][Roll[3][j]:Roll[3][j+1]])))
+        j=j+1
+        Time2.append((np.mean(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.mean(Roll[1][Roll[3][j]:Roll[3][j+1]]))/2)
+        Time2_std.append((np.std(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.std(Roll[1][Roll[3][j]:Roll[3][j+1]])))
+        Time2[i]=Time2[i]-Time1[i]
+        j=j+1
+        Time3.append((np.mean(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.mean(Roll[1][Roll[3][j]:Roll[3][j+1]]))/2)
+        Time3_std.append((np.std(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.std(Roll[1][Roll[3][j]:Roll[3][j+1]])))
+        Time3[i]=Time3[i]-Time1[i]
+        j=j+1
+        Time4.append((np.mean(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.mean(Roll[1][Roll[3][j]:Roll[3][j+1]]))/2)
+        Time4_std.append((np.std(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.std(Roll[1][Roll[3][j]:Roll[3][j+1]])))
+        Time4[i]=Time4[i]-Time1[i]
+        j=j+1
+        Time5.append((np.mean(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.mean(Roll[1][Roll[3][j]:Roll[3][j+1]]))/2)
+        Time5_std.append((np.std(Roll[0][Roll[2][j]:Roll[2][j+1]])+np.std(Roll[1][Roll[3][j]:Roll[3][j+1]])))
+        Time5[i]=Time5[i]-Time1[i]
+        Time1[i]=Time1[i]-Time1[i]
+    Time1_mean=weighted_mean(Time1,Time1_std)
+    Time2_mean=weighted_mean(Time2,Time2_std)
+    Time3_mean=weighted_mean(Time3,Time3_std)
+    Time4_mean=weighted_mean(Time4,Time4_std)
+    Time5_mean=weighted_mean(Time5,Time5_std)
+    Time=np.array([Time1_mean,Time2_mean,Time3_mean,Time4_mean,Time5_mean])
+    Time1_mean_std=uncertainty_weighted(Time1_std)
+    Time2_mean_std=uncertainty_weighted(Time2_std)
+    Time3_mean_std=uncertainty_weighted(Time3_std)
+    Time4_mean_std=uncertainty_weighted(Time4_std)
+    Time5_mean_std=uncertainty_weighted(Time5_std)
+    Time_std=np.array([Time1_mean_std,Time2_mean_std,Time3_mean_std,Time4_mean_std,Time5_mean_std])
+    return Time,Time_std
