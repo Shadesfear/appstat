@@ -4,11 +4,11 @@ def uncertainty_weighted(y_std):
     y_std=np.array(y_std)
     return np.sqrt(1/sum(1/y_std**2))
 #Calculate weighted standard deviation
-def weighted_mean(x,std):
+def weighted_mean(mesurements,sigma):
     import numpy as np
-    std=np.array(std)
-    x=np.array(x)
-    return sum(x/std**2)/sum(1/std**2)
+    sigma=np.array(sigma)
+    mesurements=np.array(mesurements)
+    return sum(mesurements/sigma**2)/sum(1/sigma**2)
 def fit_multiple(func,x,y,y_std):
     import sys                                             # Modules to see files and folders in directories
     sys.path.append('External_Functions')
